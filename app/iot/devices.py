@@ -2,7 +2,6 @@ import asyncio
 
 from .message import MessageType
 
-
 TIME_TO_SLEEP = 0.5
 
 
@@ -73,8 +72,9 @@ class SmartToiletDevice:
             data: str = ""
     ) -> None:
         print(
-            f"Smart Toilet handling message of type "
-            f"{message_type.name} with data [{data}]."
+            f"""
+Smart Toilet handling message of type {message_type.name} with data [{data}].
+"""
         )
         await asyncio.sleep(TIME_TO_SLEEP)
         print("Smart Toilet received message.")

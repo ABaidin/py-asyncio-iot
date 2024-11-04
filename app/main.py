@@ -1,25 +1,24 @@
 import asyncio
 import time
+from typing import Awaitable, Any
 
 from iot.devices import HueLightDevice, SmartSpeakerDevice, SmartToiletDevice
 from iot.message import Message, MessageType
 from iot.service import IOTService
 
 
-async def run_sequence(*functions) -> None:
+async def run_sequence(*functions: Awaitable[Any]) -> None:
     for function in functions:
         await function
 
 
-async def run_parallel(*functions) -> None:
+async def run_parallel(*functions: Awaitable[Any]) -> None:
     await asyncio.gather(*functions)
 
 
 async def main() -> None:
-    # create an IOT service
     service = IOTService()
 
-    # create and register a few devices
     hue_light = HueLightDevice()
     speaker = SmartSpeakerDevice()
     toilet = SmartToiletDevice()
@@ -30,7 +29,6 @@ async def main() -> None:
         service.register_device(toilet)
     )
 
-    # create a few programs
     await run_sequence(
         run_parallel(
             service.send_msg(Message(hue_light_id, MessageType.SWITCH_ON)),
